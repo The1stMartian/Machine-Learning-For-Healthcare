@@ -56,7 +56,7 @@ An examination of the new model's features then showed that some might be adding
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/XGboostFI_2.png)
 
-As such, I tested how the removal of individual features affected the R-squared and false negative rate. Below, my goal was to identify features that, when removed, would reduce the R-squared value. For reference, the full data frame is indicated by the red box/arrow.  
+As such, I tested how the removal of individual features affected the R-squared and false negative rate. (See below. For reference, the full data frame is indicated by the red box/arrow.)
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/FalseNeg.png)
 
