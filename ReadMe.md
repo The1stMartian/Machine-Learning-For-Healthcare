@@ -60,7 +60,7 @@ As such, I tested how the removal of individual features affected the R-squared 
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/FalseNeg.png)
 
-In particular, removing information regarding outpatient claims lacking a listed physician improved the false negative rate by half a percent. After that improvement, the model was essentially optimized as further feature removal only increased the rate of false positives and negative. Using the optimized data and model, only 12-16 features are of primary importance. Yet the low importance features are important for reducing false negative calls, offering insight into the key identifiers of fraud.
+In particular, removing information regarding outpatient claims lacking a listed physician improved the false negative rate by half a percent. After that improvement, the model was essentially optimized as further feature removal only increased the rate of false positives and negative. Using the optimized data and model, only 12-16 features are of primary importance - in particular patients with extremely long hospital stays. Yet the low importance features are important for reducing false negative calls, offering insight into the key identifiers of fraud.
 
 
 ## Conclusions
