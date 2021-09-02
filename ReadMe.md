@@ -18,7 +18,11 @@ Exploratory data analysis demonstrates that 9% of outpatient service providers a
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/Fig_FraudOverall.png)
 
-Unlike the previous data sets we examined which were essentially single flat files, the Medicare fraud data is essentially a relational database. Each provider serviced many patients. As a result, I had to engineer a variety of new features to distill various patterns into a into a single data field - one per provider. As such, it was important to test variety of calculations. I first looked at the distribution of treatment costs per patient, with the expectation that fraudulent providers might overcharge. Indeed, I found that the providers suspected of fraud had a higher mean, as well as several outlier charges in the outpatient group that exceed the highest values in the non-fraudulent provider group.
+Unlike the previous data sets we examined which were essentially single flat files, the Medicare fraud data is essentially a relational database. Each provider serviced many patients. As a result, I had to engineer a variety of new features to distill various patterns into a into a single data field - one per provider. 
+
+![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/FeatureEng.png)
+
+As such, it was important to test variety of calculations. I first looked at the distribution of treatment costs per patient, with the expectation that fraudulent providers might overcharge. Indeed, I found that the providers suspected of fraud had a higher mean, as well as several outlier charges in the outpatient group that exceed the highest values in the non-fraudulent provider group.
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/Fig_CostPP.png)
 
