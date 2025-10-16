@@ -1,4 +1,4 @@
-# NYC Data Science Academy Capstone Project: Predicting Healthcare Fraud
+# Data Science Capstone Project: Predicting Healthcare Fraud
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/Fraud.jpg)
 
@@ -11,8 +11,6 @@ For my capstone project, I used machine learning to identify Medicare fraud usin
 
 
 ## EDA
-
-Exploratory data analysis demonstrates that 9% of outpatient service providers are suspected of having committed Medicare fraud. For inpatient services, the problem is far worse (red): roughly 20% of providers are suspected of fraud.
 
 Exploratory data analysis demonstrates that 9% of outpatient service providers are suspected of having committed Medicare fraud. For inpatient services, the problem is far worse (red): roughly 20% of providers are suspected of fraud.
 
@@ -30,7 +28,7 @@ I also found that the number of inpatient (left graph) and out patient (right gr
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/FigPatientReAD.png)
 
-Interestingly, the incidence of readmittance scaled linearly with the overall number of patients, which seemed to suggest that re-admission was not a relevant predictor or fraud. However, once the number of patients exceeds a certain threshold, it becomes almost certain that fraud will occur (demonstrated below using SVM). This could potentially be due to high throughput providers anticipating that fraudulent charges will not be discovered given their large volume of claims. Irrespective of the reason, it seemed that these features should all be useful predictors.
+Interestingly, the incidence of readmittance scaled linearly with the overall number of patients, which seemed to suggest that re-admission was not a relevant predictor or fraud. However, once the number of patients exceeds a certain threshold, it becomes almost certain that fraud will occur (demonstrated below using a SVM model). This could potentially be due to high throughput providers anticipating that fraudulent charges will not be discovered given their large volume of claims. Irrespective of the reason, it seemed that these features should all be useful predictors.
 
 I also engineered several other fields including the type and frequency of chronic illnesses being treated, race, gender, and duration of hospital stay. All told, there were 39 fields that were initially used to train the models.
 
@@ -42,9 +40,9 @@ I initially tested a support vector machine model, and conducted a grid search u
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/SFM2.png)
 
-Ultimately, the SFM training and test scores were both closely correlated demonstrating a lack of overfitting, and a reasonable accuracy with model score of 0.936 and 0.930, respectively. However, despite the high model score values, a confusion matrix showed that the minority class (Fraud) was only detected at 68% efficiency.
+Ultimately, the SVM training and test scores were both closely correlated demonstrating a lack of overfitting, and a reasonable accuracy with model score of 0.936 and 0.930, respectively. However, despite the high model score values, a confusion matrix showed that the minority class (Fraud) was only detected at 68% efficiency.
 
-To see I could further improve on the SVM model, I trained a gradient boosting model. Even before optimization, the XGB model yielded a better fit with model score values of 0.980 for the training data and 0.946 for the test data.
+To see if I could build a better model using a different method, I trained a gradient boosting model. Even before optimization, the XGB model yielded a better fit with model score values of 0.980 for the training data and 0.946 for the test data.
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/ModelComparison.png)
 
@@ -56,7 +54,7 @@ The low efficiency of the initial model is likely due to the low relative abunda
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/conf_matrixFin.jpg)
 
-An examination of the new model's features then showed that some might be adding noise without actually improving the model. 
+An examination of the new model using feature importance scoring showed that some feature columns may be adding noise without actually improving the model. 
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/XGboostFI_2.png)
 
@@ -64,18 +62,18 @@ As such, I tested how the removal of individual features affected the model scor
 
 ![](https://github.com/The1stMartian/NYCDSA_Capstone/blob/master/pix/FalseNeg.png)
 
-In particular, removing information regarding outpatient claims lacking a listed physician improved the false negative rate by half a percent. After that improvement, the model was essentially optimized as further feature removal only increased the rate of false positives and negative. Using the optimized data and model, only 12-16 features are of primary importance - in particular patients with extremely long hospital stays. Yet the low importance features are important for reducing false negative calls, offering insight into the key identifiers of fraud.
+In particular, removing information regarding outpatient claims lacking a listed physician improved the false negative rate by half a percent. After that improvement, the model was essentially optimized as further feature removal only increased the rate of false positives and false negatives. Using the optimized data and model, only 12-16 features are of primary importance - in particular patients with extremely long hospital stays. Yet the low importance features were still necessary for reducing false negative calls, offering insight into the key identifiers of fraud. These features could be further investigated for more information.
 
 
 ## Conclusions
 
-The identification of over 90% of fraudulent charges should provide a substantial savings for insurers, and by extension, customers. In this dataset, the average claim is $9605 for inpatient procedures among the providers suspected of fraud but only $3363 for non suspicious providers. Likewise, charges are $473 and $262 respectively, for outpatient procedures. Assuming that an investigation takes 5 hours of work by a single investigator making $20/hour, the cost is roughly $100 per investigation. Given the potentially low cost of an investigation and the high cost of fraud, insurers are highly incentivized to conduct investigations, especially for inpatient cases.
+The identification of over 90% of likely-fraudulent charges should provide a substantial savings for insurers, and by extension, customers. In this dataset, the average claim is $9605 for inpatient procedures among the providers suspected of fraud but only $3363 for non suspicious providers. Likewise, charges are $473 and $262 respectively, for outpatient procedures. Assuming that an investigation takes 5 hours of work by a single investigator making $20/hour, the cost is roughly $100 per investigation. Given the potentially low cost of an investigation and the high cost of fraud, insurers are highly incentivized to conduct investigations, especially for inpatient cases.
 
 Fraudulent providers also tend to submit 29.5% more claims than non-fraudulent counterparts (20,623 versus 15,993, respectively). As there are relatively fewer fraudulent providers (506) relative to the non-fraudulent providers (4904), the claims per provider is 12 times higher for suspicious provider group (40.7 cases/fraudulent provider divided by 3.26). Using the assumption that 10% of the fraudulent provider’s claims are spurious, there are 2063 cases of fraud documented here, amounting to roughly $20M per year (2063 cases * $9,605/case). By extension, applying the XGB model to detect fraud at 90% efficacy should result in a savings of $17M/year minus the cost of the investigation (2063 * $100 = $206k) which is comparatively insignificant. Even in the case of inpatient investigations where the savings per case is lower, the increased number of cases (104k) indicates a potential net savings of $3.9M after the total savings of $4.9M (10% of 104k cases * $473/case) and investigation costs of $1M.
 
 ## Major insights
 
-Our modeling suggest that insurers can fight insurance fraud by closely monitoring:
+My modeling suggest that insurers can fight insurance fraud by closely monitoring:
 
 - cases of extended or repeated hospital stays
 - treatment of certain chronic illnesses
